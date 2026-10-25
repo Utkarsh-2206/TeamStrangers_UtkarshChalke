@@ -1,20 +1,283 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
-    --font-heading: 'Plus Jakarta Sans', sans-serif;
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", sans-serif;
+    --apple-bg: #fafafa;
+    --apple-card: #ffffff;
+    --apple-card-secondary: #f4f4f5;
+    --apple-text-primary: #09090b;
+    --apple-text-secondary: #71717a;
+    --apple-text-tertiary: #a1a1aa;
+    --clerk-primary: #6366f1;
+    --clerk-primary-hover: #4f46e5;
+    --apple-blue: #6366f1;
+    --apple-blue-hover: #4f46e5;
+    --apple-border: rgba(0, 0, 0, 0.08);
+    --apple-hairline: rgba(0, 0, 0, 0.04);
+    --apple-glass-bg: rgba(255, 255, 255, 0.82);
+    --apple-glass-border: rgba(0, 0, 0, 0.08);
+  }
+
+  .dark {
+    --apple-bg: #09090b;
+    --apple-card: #121215;
+    --apple-card-secondary: #18181b;
+    --apple-text-primary: #f4f4f5;
+    --apple-text-secondary: #a1a1aa;
+    --apple-text-tertiary: #71717a;
+    --clerk-primary: #6366f1;
+    --clerk-primary-hover: #4f46e5;
+    --apple-blue: #818cf8;
+    --apple-blue-hover: #6366f1;
+    --apple-border: rgba(255, 255, 255, 0.08);
+    --apple-hairline: rgba(255, 255, 255, 0.05);
+    --apple-glass-bg: rgba(18, 18, 21, 0.85);
+    --apple-glass-border: rgba(255, 255, 255, 0.08);
+  }
+
+  html {
+    font-family: var(--font-apple);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: -0.011em;
   }
 
   body {
-    font-family: var(--font-sans);
-    color: #0f172a;
-    background-color: #f8fafc;
+    background-color: var(--apple-bg);
+    color: var(--apple-text-primary);
+    min-height: 100vh;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .dark body {
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.12), transparent 75%);
+    background-repeat: no-repeat;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Apple Liquid Glass Functional Layer */
+.apple-glass-nav {
+  background: var(--apple-glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--apple-glass-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.apple-glass-card {
+  background: var(--apple-glass-bg);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--apple-glass-border);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.08);
+}
+
+.apple-card {
+  background: var(--apple-card);
+  border: 1px solid var(--apple-border);
+  border-radius: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.4s cubic-bezier(0.34, 1.45, 0.64, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background-color 0.25s ease;
+  will-change: transform, box-shadow;
+}
+
+.apple-card:hover {
+  transform: translateY(-4px) scale(1.008);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+}
+
+.dark .apple-card:hover {
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.55);
+}
+
+.apple-card-static {
+  background: var(--apple-card);
+  border: 1px solid var(--apple-border);
+  border-radius: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Apple Pill and Control Styles */
+.apple-pill-btn {
+  border-radius: 980px;
+  font-weight: 500;
+  transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.3, 1.15), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.apple-pill-btn:hover {
+  transform: scale(1.02);
+}
+
+.apple-pill-btn:active {
+  transform: scale(0.96);
+}
+
+/* Apple iOS Animation Design - Springs & Keyframes */
+:root {
+  --spring-snappy: cubic-bezier(0.2, 0.9, 0.3, 1.15);
+  --spring-bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring-interactive: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes appleFadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes appleScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes applePulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.65;
+  }
+}
+
+@keyframes appleShimmerSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes appleFloatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes appleSheetSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes appleWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
+}
+
+/* Reusable Animation Utility Classes */
+.animate-apple-fade-up {
+  animation: appleFadeSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-apple-scale-in {
+  animation: appleScaleIn 0.5s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+
+.animate-apple-sheet {
+  animation: appleSheetSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-apple-wiggle {
+  animation: appleWiggle 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-apple-pulse {
+  animation: applePulseGlow 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-apple-float {
+  animation: appleFloatSlow 5s ease-in-out infinite;
+}
+
+/* Choreographed Stagger Delays */
+.delay-stagger-1 { animation-delay: 60ms; }
+.delay-stagger-2 { animation-delay: 130ms; }
+.delay-stagger-3 { animation-delay: 200ms; }
+.delay-stagger-4 { animation-delay: 280ms; }
+.delay-stagger-5 { animation-delay: 360ms; }
+.delay-stagger-6 { animation-delay: 450ms; }
+
+/* Interactive Spring Physics for Buttons & Cards */
+.apple-press-spring {
+  transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.15), box-shadow 0.22s ease;
+}
+.apple-press-spring:hover {
+  transform: translateY(-2px);
+}
+.apple-press-spring:active {
+  transform: scale(0.96) translateY(0);
+}
+
+.apple-interactive-card {
+  transition: transform 0.42s cubic-bezier(0.34, 1.45, 0.64, 1), box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+.apple-interactive-card:hover {
+  transform: translateY(-5px) scale(1.012);
+}
+.apple-interactive-card:active {
+  transform: scale(0.98) translateY(-1px);
+}
+
+/* SF Symbol micro-bounce on icon wrapper */
+.apple-symbol-bounce {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.group:hover .apple-symbol-bounce {
+  transform: scale(1.18) rotate(-4deg);
+}
+
+/* Accessibility: Reduce Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-apple-fade-up,
+  .animate-apple-scale-in,
+  .animate-apple-float {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .apple-card:hover,
+  .apple-interactive-card:hover {
+    transform: none !important;
   }
 }
 
@@ -22,30 +285,38 @@
 .leaflet-container {
   width: 100%;
   height: 100%;
-  border-radius: 0.75rem;
+  border-radius: 24px;
   z-index: 10;
+  font-family: inherit;
 }
 
-/* Glassmorphism utility */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+.dark .leaflet-tile-pane {
+  filter: brightness(0.65) invert(1) contrast(2.6) hue-rotate(200deg) saturate(0.3) brightness(0.8);
+}
+.dark .leaflet-container {
+  background: #1c1c1e;
+}
+.dark .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip {
+  background: #1c1c1e !important;
+  color: #f5f5f7 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  border-radius: 16px;
 }
 
-/* Custom scrollbars */
+/* Apple Smooth Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: rgba(128, 128, 128, 0.28);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgba(128, 128, 128, 0.45);
 }

@@ -3,7 +3,6 @@ import { useAuth } from '../../context/AuthContext';
 import { mockStore } from '../../lib/mockStore';
 import { useNavigate } from 'react-router-dom';
 import {
-  Sparkles,
   UserCheck,
   Briefcase,
   Shield,
@@ -11,6 +10,7 @@ import {
   ChevronUp,
   ChevronDown,
   CheckCircle2,
+  Sparkles,
 } from 'lucide-react';
 
 export const JudgeDemoBar: React.FC = () => {
@@ -28,103 +28,96 @@ export const JudgeDemoBar: React.FC = () => {
 
   const handleReset = () => {
     mockStore.resetToDemo();
-    setResetMessage('Data restored!');
+    setResetMessage('Data reset');
     setTimeout(() => setResetMessage(null), 2500);
   };
 
   return (
     <aside
-      aria-label="Hackathon Evaluator Quick Switcher"
-      className="fixed bottom-4 right-4 z-40 max-w-sm w-[calc(100%-2rem)] sm:w-auto shadow-2xl rounded-2xl transition-all"
+      aria-label="Evaluation Persona Switcher"
+      className="fixed bottom-6 right-6 z-40 select-none"
     >
-      <div className="bg-slate-900/95 backdrop-blur-md text-white border border-slate-700/80 rounded-2xl p-3 shadow-xl space-y-2">
-        {/* Header Toggle */}
-        <div className="flex items-center justify-between gap-3 cursor-pointer select-none" onClick={() => setIsExpanded(!isExpanded)}>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-300">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-            </div>
-            <div>
-              <div className="text-[11px] font-extrabold text-white tracking-wide flex items-center gap-1.5">
-                <span>Judge Quick Switcher</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              </div>
-              <p className="text-[10px] text-slate-400">
-                Active:{' '}
-                <strong className="text-teal-300 capitalize">
-                  {user?.full_name || role || 'Guest'}
-                </strong>{' '}
-                ({role})
-              </p>
-            </div>
+      <div className="bg-[#1d1d1f]/95 dark:bg-[#1c1c1e]/95 text-white backdrop-blur-2xl border border-white/15 rounded-[24px] shadow-[0_16px_40px_rgba(0,0,0,0.4)] p-3 transition-all duration-300 ease-out">
+        {/* Compact Dynamic Island Pill */}
+        <div
+          className="flex items-center gap-2.5 px-2 py-1 cursor-pointer apple-press-spring"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          <Sparkles className="w-4 h-4 text-[#818cf8]" />
+          <div className="text-[14px] font-semibold tracking-tight flex items-center gap-1.5">
+            <span>Demo Mode:</span>
+            <span className="text-[#818cf8] capitalize font-bold">
+              {role || 'Guest'}
+            </span>
           </div>
 
-          <div className="flex items-center gap-1 text-slate-400 hover:text-white">
-            <span className="text-[10px] uppercase font-bold sm:inline hidden">
-              {isExpanded ? 'Hide' : 'Quick Switch'}
-            </span>
+          <div className="text-white/60 hover:text-white transition-colors ml-1">
             {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
           </div>
         </div>
 
-        {/* Expandable Persona Selector */}
+        {/* Expandable Menu with Apple Spring Transition */}
         {isExpanded && (
-          <div className="pt-2 border-t border-slate-800 space-y-2 animate-fadeIn">
+          <div className="pt-3 mt-2 border-t border-white/10 space-y-3 animate-apple-scale-in min-w-[260px]">
+            <div className="text-[12px] uppercase tracking-wider text-white/50 font-bold px-1">
+              Switch Test Persona
+            </div>
+
             <div className="grid grid-cols-3 gap-1.5">
               <button
                 type="button"
                 onClick={() => handleSwitch('customer')}
-                className={`py-2 px-2 rounded-xl text-[11px] font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                className={`py-2 px-2.5 rounded-2xl text-[13px] font-semibold flex flex-col items-center justify-center gap-1.5 transition-all apple-press-spring cursor-pointer ${
                   role === 'customer'
-                    ? 'bg-teal-600 text-white shadow-xs'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-white text-[#1d1d1f] shadow-md font-bold'
+                    : 'bg-white/10 text-white hover:bg-white/18'
                 }`}
               >
-                <UserCheck className="w-3.5 h-3.5" />
+                <UserCheck className="w-4 h-4" />
                 <span>Customer</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleSwitch('worker')}
-                className={`py-2 px-2 rounded-xl text-[11px] font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                className={`py-2 px-2.5 rounded-2xl text-[13px] font-semibold flex flex-col items-center justify-center gap-1.5 transition-all apple-press-spring cursor-pointer ${
                   role === 'worker'
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-white text-[#1d1d1f] shadow-md font-bold'
+                    : 'bg-white/10 text-white hover:bg-white/18'
                 }`}
               >
-                <Briefcase className="w-3.5 h-3.5" />
-                <span>Worker</span>
+                <Briefcase className="w-4 h-4" />
+                <span>Pro</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleSwitch('admin')}
-                className={`py-2 px-2 rounded-xl text-[11px] font-bold flex flex-col items-center justify-center gap-1 transition-all ${
+                className={`py-2 px-2.5 rounded-2xl text-[13px] font-semibold flex flex-col items-center justify-center gap-1.5 transition-all apple-press-spring cursor-pointer ${
                   role === 'admin'
-                    ? 'bg-amber-600 text-white shadow-xs'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    ? 'bg-white text-[#1d1d1f] shadow-md font-bold'
+                    : 'bg-white/10 text-white hover:bg-white/18'
                 }`}
               >
-                <Shield className="w-3.5 h-3.5" />
+                <Shield className="w-4 h-4" />
                 <span>Admin</span>
               </button>
             </div>
 
-            <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center justify-between pt-1 px-1">
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-1 text-[10px] text-slate-400 hover:text-rose-400 font-semibold transition-colors"
+                className="inline-flex items-center gap-1.5 text-[12px] font-medium text-white/60 hover:text-white transition-colors cursor-pointer"
                 title="Restore fresh demo dataset"
               >
-                <RotateCcw className="w-3 h-3" />
-                <span>Reset Demo Seed</span>
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Reset Demo Store</span>
               </button>
 
               {resetMessage && (
-                <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3" />
+                <span className="text-[12px] text-[#34c759] font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>{resetMessage}</span>
                 </span>
               )}

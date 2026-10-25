@@ -27,11 +27,10 @@ export const StarRating: React.FC<StarRatingProps> = ({
   };
 
   const [hoverRating, setHoverRating] = React.useState<number | null>(null);
-
   const displayRating = hoverRating !== null ? hoverRating : rating;
 
   return (
-    <div className="inline-flex items-center gap-1.5">
+    <div className="inline-flex items-center gap-2 select-none">
       <div className="flex items-center gap-0.5">
         {Array.from({ length: totalStars }, (_, index) => {
           const starValue = index + 1;
@@ -45,14 +44,14 @@ export const StarRating: React.FC<StarRatingProps> = ({
               onClick={() => interactive && onChange && onChange(starValue)}
               onMouseEnter={() => interactive && setHoverRating(starValue)}
               onMouseLeave={() => interactive && setHoverRating(null)}
-              className={`${interactive ? 'cursor-pointer transition-transform hover:scale-110' : 'cursor-default'} focus:outline-none`}
+              className={`${interactive ? 'cursor-pointer hover:scale-110' : 'cursor-default'} transition-transform focus:outline-none`}
               aria-label={`Rate ${starValue} star${starValue > 1 ? 's' : ''}`}
             >
               <Star
                 className={`${iconSizes[size]} ${
                   isFilled
-                    ? 'fill-amber-400 text-amber-400'
-                    : 'fill-slate-100 text-slate-300'
+                    ? 'fill-[#ff9500] dark:fill-[#ffd60a] text-[#ff9500] dark:text-[#ffd60a]'
+                    : 'fill-black/[0.08] dark:fill-white/[0.1] text-black/[0.1] dark:text-white/[0.15]'
                 }`}
               />
             </button>
@@ -61,10 +60,10 @@ export const StarRating: React.FC<StarRatingProps> = ({
       </div>
 
       {showCount && (
-        <span className="text-xs font-semibold text-slate-700">
+        <span className="text-[14px] sm:text-[15px] font-semibold text-[#1d1d1f] dark:text-white tracking-tight">
           {rating > 0 ? rating.toFixed(1) : 'New'}
           {reviewCount !== undefined && (
-            <span className="font-normal text-slate-500 ml-1">({reviewCount})</span>
+            <span className="font-normal text-[#86868b] dark:text-[#98989d] ml-1">({reviewCount})</span>
           )}
         </span>
       )}

@@ -3,19 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import {
   MapPin,
   BadgeCheck,
-  Star,
-  CheckCircle2,
-  Calendar,
-  Clock,
+  Check,
   ShieldCheck,
-  Phone,
   ArrowLeft,
-  Briefcase,
   AlertCircle,
   Share2,
   Lock,
   ThumbsUp,
-  Award,
+  ChevronRight,
 } from 'lucide-react';
 import { mockStore } from '../lib/mockStore';
 import { WorkerProfile, Review } from '../types';
@@ -61,94 +56,90 @@ export const WorkerProfilePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="w-8 h-8 border-3 border-teal-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-[#f5f5f7] dark:bg-[#000000] flex items-center justify-center">
+        <div className="w-8 h-8 border-3 border-[#0071e3] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
   if (!worker) {
     return (
-      <div className="min-h-screen bg-slate-50 py-16 text-center space-y-4">
-        <AlertCircle className="w-12 h-12 text-rose-500 mx-auto" />
-        <h2 className="text-xl font-bold text-slate-800">Worker Profile Not Found</h2>
-        <Link to="/workers" className="text-teal-600 font-bold hover:underline text-sm inline-block">
-          ← Back to All Workers
+      <div className="min-h-screen bg-[#f5f5f7] dark:bg-[#000000] py-20 text-center space-y-4">
+        <AlertCircle className="w-12 h-12 text-[#ff9500] mx-auto" />
+        <h2 className="text-2xl font-bold text-[#1d1d1f] dark:text-white">Specialist Profile Not Found</h2>
+        <Link to="/workers" className="text-[#0071e3] dark:text-[#0a84ff] font-semibold text-[15px] hover:underline inline-block">
+          ← Back to Specialist Directory
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-24 sm:pb-16 pt-8">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="min-h-screen bg-[#f5f5f7] dark:bg-[#000000] text-[#1d1d1f] dark:text-[#f5f5f7] pb-24 sm:pb-16 pt-8 transition-colors duration-250">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8 animate-apple-fade-up">
         {/* Navigation & Share */}
         <div className="flex items-center justify-between">
           <Link
             to="/workers"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-teal-700 transition-colors"
+            className="inline-flex items-center gap-2 text-[15px] font-semibold text-[#86868b] dark:text-[#98989d] hover:text-[#1d1d1f] dark:hover:text-white transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Discovery Search</span>
+            <ArrowLeft className="w-4.5 h-4.5" />
+            <span>Specialist Directory</span>
           </Link>
 
           <button
             type="button"
             onClick={handleShare}
-            className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
+            className="px-4 py-2 rounded-full border border-black/[0.08] dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] text-[#1d1d1f] dark:text-white text-[13px] font-semibold flex items-center gap-2 shadow-xs transition-colors apple-press-spring cursor-pointer"
           >
-            <Share2 className="w-3.5 h-3.5 text-slate-500" />
-            <span>{copiedLink ? 'Link Copied!' : 'Share Profile'}</span>
+            <Share2 className="w-4 h-4 text-[#86868b]" />
+            <span>{copiedLink ? 'Link Copied' : 'Share Profile'}</span>
           </button>
         </div>
 
         {/* Profile Card Header */}
-        <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xs">
-          {/* Subtle Accent Cover */}
-          <div className="h-28 sm:h-36 bg-gradient-to-r from-teal-700 via-teal-800 to-slate-900 relative">
-            <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold text-white flex items-center gap-1.5 border border-white/20">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Aadhaar Verified Professional</span>
+        <div className="bg-white dark:bg-[#1c1c1e] rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] overflow-hidden shadow-xs">
+          {/* Apple Obsidian Header Band */}
+          <div className="h-32 sm:h-40 bg-[#1d1d1f] dark:bg-[#161618] relative">
+            <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[12px] font-semibold text-white flex items-center gap-2 border border-white/10">
+              <ShieldCheck className="w-4 h-4 text-[#34c759]" />
+              <span>Aadhaar Verified Specialist</span>
             </div>
           </div>
 
-          <div className="px-6 sm:px-8 pb-8 pt-0">
-            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 -mt-14 sm:-mt-16">
+          <div className="px-6 sm:px-10 pb-10 pt-0">
+            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 -mt-16 sm:-mt-20">
               <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
                 <div className="relative">
                   <img
                     src={worker.avatar_url}
                     alt={worker.full_name}
-                    className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl object-cover border-4 border-white shadow-md bg-white"
-                  />
-                  <span
-                    className={`absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-white ${
-                      worker.availability_status === 'available' ? 'bg-emerald-500' : 'bg-amber-500'
-                    }`}
-                    title={worker.availability_status}
+                    className="w-28 h-28 sm:w-32 sm:h-32 rounded-[28px] object-cover border-4 border-white dark:border-[#1c1c1e] shadow-lg bg-white"
                   />
                 </div>
 
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">{worker.full_name}</h1>
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2.5">
+                    <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-[#1d1d1f] dark:text-white">
+                      {worker.full_name}
+                    </h1>
                     {worker.verification_status === 'verified' && (
-                      <BadgeCheck className="w-5 h-5 text-teal-600" />
+                      <BadgeCheck className="w-6 h-6 text-[#0071e3] dark:text-[#0a84ff]" />
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-1.5 font-medium">
-                    <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                  <p className="text-[14px] sm:text-[15px] text-[#86868b] dark:text-[#98989d] flex items-center gap-1.5 font-medium">
+                    <MapPin className="w-4 h-4 text-[#86868b] shrink-0" />
                     <span>{worker.locality}, Bengaluru</span>
-                    <span className="text-slate-300">•</span>
-                    <span>{worker.service_radius_km} km coverage</span>
+                    <span>•</span>
+                    <span>{worker.service_radius_km} km radius</span>
                   </p>
-                  <div className="pt-1 flex flex-wrap items-center gap-2">
+                  <div className="pt-1.5 flex flex-wrap items-center gap-2.5">
                     <StatusBadge status={worker.verification_status} type="verification" />
                     <span
-                      className={`text-xs px-2.5 py-0.5 rounded-full font-bold ${
+                      className={`text-[13px] px-3 py-1 rounded-full font-semibold ${
                         worker.availability_status === 'available'
-                          ? 'bg-teal-50 text-teal-800 border border-teal-200'
-                          : 'bg-amber-50 text-amber-800 border border-amber-200'
+                          ? 'bg-[#34c759]/15 text-[#34c759] border border-[#34c759]/30'
+                          : 'bg-[#ff9500]/15 text-[#ff9500] border border-[#ff9500]/30'
                       }`}
                     >
                       {worker.availability_status === 'available' ? 'Available Today' : 'Busy Today'}
@@ -158,97 +149,109 @@ export const WorkerProfilePage: React.FC = () => {
               </div>
 
               {/* Desktop Booking CTA */}
-              <div className="hidden sm:flex flex-col items-end gap-2 p-4 rounded-2xl bg-teal-50/70 border border-teal-200">
+              <div className="hidden sm:flex flex-col items-end gap-2 p-5 rounded-[22px] bg-[#f5f5f7] dark:bg-[#242426] border border-black/[0.04] dark:border-white/[0.06]">
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">
+                  <span className="text-[12px] text-[#86868b] dark:text-[#98989d] font-bold uppercase tracking-wider block">
                     Starting Base Quote
                   </span>
-                  <span className="text-2xl font-extrabold text-teal-900">₹{worker.starting_rate}</span>
+                  <span className="text-3xl font-bold text-[#0071e3] dark:text-[#0a84ff]">₹{worker.starting_rate}</span>
                 </div>
                 <Link
                   to={`/book/${worker.id}`}
-                  className="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md shadow-teal-600/20 transition-all hover:scale-102"
+                  className="px-7 py-3 rounded-full bg-[#0071e3] dark:bg-[#0a84ff] hover:bg-[#0077ed] text-white font-semibold text-[15px] transition-colors shadow-sm apple-press-spring"
                 >
-                  Book & Propose Price
+                  Book Specialist
                 </Link>
               </div>
             </div>
 
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 mt-6 border-t border-slate-100">
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Trade Experience</span>
-                <span className="text-base font-extrabold text-slate-900">{worker.experience_years} Years</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-8 mt-8 border-t border-black/[0.06] dark:border-white/[0.08]">
+              <div className="p-4 bg-[#f5f5f7] dark:bg-[#242426] rounded-2xl">
+                <span className="text-[12px] text-[#86868b] dark:text-[#98989d] font-medium block">Experience</span>
+                <span className="text-[17px] sm:text-[18px] font-bold text-[#1d1d1f] dark:text-white mt-0.5 block">{worker.experience_years} Years</span>
               </div>
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Jobs Completed</span>
-                <span className="text-base font-extrabold text-slate-900">{worker.completed_jobs_count}+ Done</span>
+              <div className="p-4 bg-[#f5f5f7] dark:bg-[#242426] rounded-2xl">
+                <span className="text-[12px] text-[#86868b] dark:text-[#98989d] font-medium block">Completed Jobs</span>
+                <span className="text-[17px] sm:text-[18px] font-bold text-[#1d1d1f] dark:text-white mt-0.5 block">{worker.completed_jobs_count}+ Completed</span>
               </div>
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Customer Rating</span>
-                <span className="text-base font-extrabold text-amber-600 flex items-center gap-1">
-                  <span>★</span>
+              <div className="p-4 bg-[#f5f5f7] dark:bg-[#242426] rounded-2xl">
+                <span className="text-[12px] text-[#86868b] dark:text-[#98989d] font-medium block">Customer Rating</span>
+                <span className="text-[17px] sm:text-[18px] font-bold text-[#1d1d1f] dark:text-white flex items-center gap-1 mt-0.5">
+                  <span className="text-[#ff9500] dark:text-[#ffd60a]">★</span>
                   <span>{worker.rating ? worker.rating.toFixed(1) : 'New'}</span>
-                  <span className="text-xs text-slate-400 font-normal">({worker.review_count})</span>
+                  <span className="text-[13px] text-[#86868b] font-normal">({worker.review_count})</span>
                 </span>
               </div>
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Direct Contact</span>
-                <span className="text-base font-extrabold text-slate-900">{worker.phone}</span>
+              <div className="p-4 bg-[#f5f5f7] dark:bg-[#242426] rounded-2xl">
+                <span className="text-[12px] text-[#86868b] dark:text-[#98989d] font-medium block">Direct Contact</span>
+                <span className="text-[17px] sm:text-[18px] font-bold text-[#1d1d1f] dark:text-white font-mono mt-0.5 block">{worker.phone}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Content Tabs */}
-        <div className="flex gap-2 border-b border-slate-200 pb-2 text-xs font-bold">
+        {/* Content Tabs - Apple Segmented Control */}
+        <div className="flex gap-1.5 p-1.5 bg-black/[0.04] dark:bg-white/[0.08] rounded-full w-fit">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`px-4 py-2 rounded-xl transition-all ${
-              activeTab === 'overview' ? 'bg-teal-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'
+            className={`px-5 py-2 rounded-full text-[14px] font-semibold transition-all cursor-pointer ${
+              activeTab === 'overview'
+                ? 'bg-white dark:bg-[#2c2c2e] text-[#1d1d1f] dark:text-white shadow-xs'
+                : 'text-[#86868b] dark:text-[#98989d] hover:text-[#1d1d1f] dark:hover:text-white'
             }`}
           >
             Overview & Skills
           </button>
           <button
             onClick={() => setActiveTab('reviews')}
-            className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-              activeTab === 'reviews' ? 'bg-teal-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'
+            className={`px-5 py-2 rounded-full text-[14px] font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+              activeTab === 'reviews'
+                ? 'bg-white dark:bg-[#2c2c2e] text-[#1d1d1f] dark:text-white shadow-xs'
+                : 'text-[#86868b] dark:text-[#98989d] hover:text-[#1d1d1f] dark:hover:text-white'
             }`}
           >
             <span>Verified Reviews</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-slate-200 text-slate-800 text-[10px]">
+            <span className="px-2 py-0.5 rounded-full bg-black/[0.06] dark:bg-white/[0.1] text-[#1d1d1f] dark:text-white text-[12px] font-bold">
               {reviews.length}
             </span>
           </button>
           <button
             onClick={() => setActiveTab('coverage')}
-            className={`px-4 py-2 rounded-xl transition-all ${
-              activeTab === 'coverage' ? 'bg-teal-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'
+            className={`px-5 py-2 rounded-full text-[14px] font-semibold transition-all cursor-pointer ${
+              activeTab === 'coverage'
+                ? 'bg-white dark:bg-[#2c2c2e] text-[#1d1d1f] dark:text-white shadow-xs'
+                : 'text-[#86868b] dark:text-[#98989d] hover:text-[#1d1d1f] dark:hover:text-white'
             }`}
           >
-            Coverage Area Map
+            Service Radius
           </button>
         </div>
 
         {/* TAB 1: OVERVIEW */}
         {activeTab === 'overview' && (
-          <div className="space-y-6 animate-fadeIn">
-            <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-4">
-              <h2 className="text-base font-extrabold text-slate-900">About {worker.full_name}</h2>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{worker.bio}</p>
+          <div className="space-y-6 animate-apple-fade-up">
+            <div className="bg-white dark:bg-[#1c1c1e] rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] p-8 sm:p-10 shadow-xs space-y-6">
+              <div>
+                <h2 className="text-[20px] sm:text-[22px] font-bold text-[#1d1d1f] dark:text-white">
+                  About {worker.full_name}
+                </h2>
+                <p className="text-[15px] sm:text-[16px] text-[#515154] dark:text-[#c7c7cc] leading-relaxed mt-2">
+                  {worker.bio}
+                </p>
+              </div>
 
-              <div className="pt-4 border-t border-slate-100 space-y-3">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <div className="pt-6 border-t border-black/[0.06] dark:border-white/[0.08] space-y-3.5">
+                <h3 className="text-[13px] font-bold text-[#86868b] dark:text-[#98989d] uppercase tracking-wider">
                   Verified Trade Categories
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2.5">
                   {worker.skills.map((s) => (
                     <div
                       key={s.id}
-                      className="px-3.5 py-2 rounded-2xl bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold flex items-center gap-2"
+                      className="px-4 py-2 rounded-full bg-[#f5f5f7] dark:bg-[#242426] text-[#1d1d1f] dark:text-white text-[14px] font-semibold flex items-center gap-2 border border-black/[0.04] dark:border-white/[0.06]"
                     >
-                      <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />
+                      <Check className="w-4 h-4 text-[#34c759]" />
                       <span>{s.name} ({s.category})</span>
                     </div>
                   ))}
@@ -257,22 +260,22 @@ export const WorkerProfilePage: React.FC = () => {
             </div>
 
             {/* Escrow Guarantee Banner */}
-            <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-7 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 text-teal-400 text-xs font-bold">
+            <div className="bg-[#1d1d1f] dark:bg-[#161618] text-white rounded-[32px] p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-2xl border border-transparent dark:border-white/[0.08]">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-[#34c759] text-[13px] font-semibold">
                   <Lock className="w-4 h-4" />
-                  <span>Escrow & Satisfaction Lock</span>
+                  <span>Escrow & Customer Confirmation Lock</span>
                 </div>
-                <h3 className="text-base font-bold">No advance payment required</h3>
-                <p className="text-xs text-slate-400 max-w-lg">
-                  Propose your budget, agree on pricing upfront, and pay only after you personally confirm completion and inspect the work on site.
+                <h3 className="text-[20px] font-bold text-white">No advance payment required</h3>
+                <p className="text-[15px] text-[#a1a1a6] max-w-lg leading-relaxed">
+                  Propose your budget, agree on pricing upfront, and pay only after you personally inspect and confirm completed work.
                 </p>
               </div>
               <Link
                 to={`/book/${worker.id}`}
-                className="px-6 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-extrabold text-xs shrink-0 shadow-md transition-colors"
+                className="px-8 py-3.5 rounded-full bg-white text-[#1d1d1f] hover:bg-[#f5f5f7] font-semibold text-[15px] shrink-0 transition-colors shadow-sm apple-press-spring cursor-pointer"
               >
-                Book {worker.full_name.split(' ')[0]} Now
+                Book {worker.full_name.split(' ')[0]}
               </Link>
             </div>
           </div>
@@ -280,22 +283,24 @@ export const WorkerProfilePage: React.FC = () => {
 
         {/* TAB 2: REVIEWS */}
         {activeTab === 'reviews' && (
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6 animate-fadeIn">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+          <div className="bg-white dark:bg-[#1c1c1e] rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] p-8 sm:p-10 shadow-xs space-y-8 animate-apple-fade-up">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-black/[0.06] dark:border-white/[0.08]">
               <div className="space-y-1">
-                <h2 className="text-xl font-extrabold text-slate-900">Customer Reviews & Ratings</h2>
-                <p className="text-xs text-slate-500">
-                  Authentic ratings submitted by households after completed service appointments.
+                <h2 className="text-[20px] sm:text-[22px] font-bold text-[#1d1d1f] dark:text-white">
+                  Customer Reviews & Ratings
+                </h2>
+                <p className="text-[14px] sm:text-[15px] text-[#86868b] dark:text-[#98989d]">
+                  Authentic ratings submitted by households following completed service appointments.
                 </p>
               </div>
 
-              <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                <div className="text-3xl font-extrabold text-slate-900">
+              <div className="flex items-center gap-4 bg-[#f5f5f7] dark:bg-[#242426] p-5 rounded-2xl">
+                <div className="text-4xl font-bold text-[#1d1d1f] dark:text-white">
                   {worker.rating > 0 ? worker.rating.toFixed(1) : 'New'}
                 </div>
                 <div className="space-y-1">
-                  <StarRating rating={worker.rating} size="sm" />
-                  <span className="text-[11px] text-slate-400 block font-medium">
+                  <StarRating rating={worker.rating} size="md" />
+                  <span className="text-[13px] text-[#86868b] dark:text-[#98989d] block font-medium">
                     {reviews.length} verified ratings
                   </span>
                 </div>
@@ -303,25 +308,25 @@ export const WorkerProfilePage: React.FC = () => {
             </div>
 
             {reviews.length === 0 ? (
-              <div className="text-center py-12 text-slate-400 text-xs space-y-2">
-                <ThumbsUp className="w-8 h-8 mx-auto text-slate-300" />
+              <div className="text-center py-16 text-[#86868b] dark:text-[#98989d] text-[15px] space-y-3">
+                <ThumbsUp className="w-8 h-8 mx-auto text-[#86868b]/60" />
                 <p>No customer reviews yet. Be the first to book and review {worker.full_name}!</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {reviews.map((rev) => (
-                  <div key={rev.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+                  <div key={rev.id} className="p-5 rounded-2xl bg-[#f5f5f7] dark:bg-[#242426] space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs text-slate-900">{rev.customer_name || 'Customer'}</span>
-                        <span className="text-[10px] text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200 font-semibold">
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-bold text-[15px] text-[#1d1d1f] dark:text-white">{rev.customer_name || 'Customer'}</span>
+                        <span className="text-[11px] text-[#34c759] bg-[#34c759]/10 px-2.5 py-0.5 rounded-full border border-[#34c759]/20 font-semibold">
                           Verified Job
                         </span>
                       </div>
                       <StarRating rating={rev.rating} size="sm" />
                     </div>
-                    <p className="text-xs text-slate-700 leading-relaxed">{rev.comment}</p>
-                    <span className="text-[10px] text-slate-400 block">
+                    <p className="text-[14px] sm:text-[15px] text-[#515154] dark:text-[#c7c7cc] leading-relaxed">{rev.comment}</p>
+                    <span className="text-[12px] text-[#86868b] dark:text-[#98989d] block">
                       {new Date(rev.created_at).toLocaleDateString(undefined, {
                         month: 'short',
                         day: 'numeric',
@@ -337,36 +342,38 @@ export const WorkerProfilePage: React.FC = () => {
 
         {/* TAB 3: COVERAGE AREA */}
         {activeTab === 'coverage' && (
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-4 animate-fadeIn">
+          <div className="bg-white dark:bg-[#1c1c1e] rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] p-8 sm:p-10 shadow-xs space-y-6 animate-apple-fade-up">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Approximate Service Radius</h2>
-              <p className="text-xs text-slate-500">
-                Covers approx. {worker.service_radius_km} km radius around {worker.locality}. Private home coordinates are masked for worker safety.
+              <h2 className="text-[20px] sm:text-[22px] font-bold text-[#1d1d1f] dark:text-white">Approximate Service Radius</h2>
+              <p className="text-[14px] sm:text-[15px] text-[#86868b] dark:text-[#98989d] mt-1">
+                Covers approx. {worker.service_radius_km} km radius around {worker.locality}. Exact residence coordinates are masked for specialist safety.
               </p>
             </div>
 
-            <LeafletMap
-              workers={[worker]}
-              selectedWorkerId={worker.id}
-              center={[worker.latitude, worker.longitude]}
-              zoom={13}
-              height="350px"
-            />
+            <div className="overflow-hidden rounded-[24px] border border-black/[0.06] dark:border-white/[0.08]">
+              <LeafletMap
+                workers={[worker]}
+                selectedWorkerId={worker.id}
+                center={[worker.latitude, worker.longitude]}
+                zoom={13}
+                height="380px"
+              />
+            </div>
           </div>
         )}
       </div>
 
-      {/* Sticky Mobile Booking Drawer / Bottom Bar */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 flex items-center justify-between shadow-lg">
+      {/* Sticky Mobile Booking Drawer */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 apple-glass-nav px-6 py-4 flex items-center justify-between shadow-2xl">
         <div>
-          <span className="text-[10px] text-slate-400 font-bold block uppercase">Base Quote</span>
-          <span className="text-lg font-extrabold text-teal-800">₹{worker.starting_rate}</span>
+          <span className="text-[11px] text-[#86868b] dark:text-[#98989d] block font-bold uppercase tracking-wider">Starting Quote</span>
+          <span className="text-xl font-bold text-[#0071e3] dark:text-[#0a84ff]">₹{worker.starting_rate}</span>
         </div>
         <Link
           to={`/book/${worker.id}`}
-          className="px-6 py-2.5 rounded-xl bg-teal-600 text-white font-bold text-xs shadow-md shadow-teal-600/20"
+          className="px-7 py-3 rounded-full bg-[#0071e3] dark:bg-[#0a84ff] text-white font-semibold text-[15px] apple-press-spring"
         >
-          Book & Propose Price
+          Book Specialist
         </Link>
       </div>
     </div>

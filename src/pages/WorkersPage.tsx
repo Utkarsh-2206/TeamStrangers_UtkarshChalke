@@ -2,17 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import {
   MapPin,
-  Filter,
   SlidersHorizontal,
   BadgeCheck,
-  Zap,
-  ArrowUpDown,
   Navigation,
   Info,
   Calendar,
-  CheckCircle,
   AlertCircle,
-  Layers,
   ChevronDown,
   ChevronUp,
   RotateCcw,
@@ -21,7 +16,7 @@ import {
 import { DEMO_SERVICES } from '../lib/demoData';
 import { mockStore } from '../lib/mockStore';
 import { WorkerProfile, MatchEvaluation } from '../types';
-import { rankWorkers, evaluateWorkerMatch } from '../utils/matching';
+import { rankWorkers } from '../utils/matching';
 import { LeafletMap } from '../components/common/LeafletMap';
 import { StarRating } from '../components/common/StarRating';
 import { StatusBadge } from '../components/common/StatusBadge';
@@ -122,34 +117,31 @@ export const WorkersPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* Top Header & Mobile Segmented Control */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="min-h-screen bg-[#f5f5f7] dark:bg-[#000000] text-[#1d1d1f] dark:text-[#f5f5f7] py-12 transition-colors duration-250">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
+        {/* Top Header & Apple Style Segmented Controls */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-extrabold text-teal-800 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-amber-500 fill-amber-500" />
-                <span>Deterministic Scoring Engine</span>
-              </span>
-              <span className="text-xs text-slate-400 hidden sm:inline">• 0.35 Dist + 0.25 Avail + 0.20 Rate + 0.20 Afford</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.08] border border-black/[0.06] dark:border-white/[0.08] text-[13px] font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] mb-3">
+              <MapPin className="w-3.5 h-3.5 text-[#6366f1] dark:text-[#818cf8]" />
+              <span>Deterministic Hyperlocal Engine</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
-              Hyperlocal Worker Discovery
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1d1d1f] dark:text-white">
+              Specialist Directory
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
-              Showing scored & verified pros around <strong className="text-slate-800">{selectedLocality}</strong> (within {maxDistance} km)
+            <p className="text-[15px] sm:text-[17px] text-[#86868b] dark:text-[#98989d] mt-2 leading-relaxed">
+              Verified independent tradespeople around <span className="font-semibold text-[#1d1d1f] dark:text-white">{selectedLocality}</span> (within {maxDistance} km)
             </p>
           </div>
 
           {/* Mobile Tab Control & Filter Toggle */}
-          <div className="flex items-center gap-2">
-            <div className="sm:hidden flex bg-white p-1 rounded-xl border border-slate-200 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="sm:hidden flex bg-black/[0.04] dark:bg-white/[0.08] p-1.5 rounded-full border border-black/[0.05] dark:border-white/[0.08]">
               <button
                 type="button"
                 onClick={() => setMobileTab('list')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                  mobileTab === 'list' ? 'bg-teal-600 text-white shadow-xs' : 'text-slate-600'
+                className={`px-4 py-2 rounded-full text-[14px] font-semibold transition-all ${
+                  mobileTab === 'list' ? 'bg-white dark:bg-[#1c1c1e] text-[#1d1d1f] dark:text-white shadow-xs' : 'text-[#86868b] dark:text-[#98989d]'
                 }`}
               >
                 List ({rankedEvaluations.length})
@@ -157,8 +149,8 @@ export const WorkersPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setMobileTab('map')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                  mobileTab === 'map' ? 'bg-teal-600 text-white shadow-xs' : 'text-slate-600'
+                className={`px-4 py-2 rounded-full text-[14px] font-semibold transition-all ${
+                  mobileTab === 'map' ? 'bg-white dark:bg-[#1c1c1e] text-[#1d1d1f] dark:text-white shadow-xs' : 'text-[#86868b] dark:text-[#98989d]'
                 }`}
               >
                 Map View
@@ -167,22 +159,22 @@ export const WorkersPage: React.FC = () => {
 
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center gap-1.5 shadow-xs transition-colors"
+              className="px-5 py-2.5 rounded-full text-[14px] font-semibold border border-black/[0.08] dark:border-white/[0.12] bg-white dark:bg-[#1c1c1e] hover:bg-black/[0.02] dark:hover:bg-white/[0.04] text-[#1d1d1f] dark:text-white flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-teal-600" />
+              <SlidersHorizontal className="w-4 h-4 text-[#0071e3] dark:text-[#0a84ff]" />
               <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
-              {showFilters ? <ChevronUp className="w-3.5 h-3.5 text-slate-400" /> : <ChevronDown className="w-3.5 h-3.5 text-slate-400" />}
+              {showFilters ? <ChevronUp className="w-4 h-4 text-[#86868b]" /> : <ChevronDown className="w-4 h-4 text-[#86868b]" />}
             </button>
           </div>
         </div>
 
-        {/* Filter Controls Bar */}
+        {/* Apple Style Filter Panel */}
         {showFilters && (
-          <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-xs space-y-4 animate-fadeIn">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white dark:bg-[#1c1c1e] p-7 rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] shadow-xs space-y-6 animate-in fade-in duration-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Service selector */}
               <div>
-                <label className="text-xs font-bold text-slate-700 mb-1.5 block">Service Category</label>
+                <label className="text-[13px] sm:text-[14px] font-semibold text-[#86868b] dark:text-[#98989d] mb-2 block">Service Category</label>
                 <select
                   value={selectedService}
                   onChange={(e) => {
@@ -193,11 +185,11 @@ export const WorkersPage: React.FC = () => {
                       return prev;
                     });
                   }}
-                  className="w-full text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-teal-500"
+                  className="w-full text-[15px] font-medium bg-[#f5f5f7] dark:bg-[#2c2c2e] border-0 rounded-2xl p-3 text-[#1d1d1f] dark:text-white focus:outline-none cursor-pointer"
                 >
-                  <option value="">All 10 Trade Services</option>
+                  <option value="" className="dark:bg-[#1c1c1e]">All 10 Trade Services</option>
                   {DEMO_SERVICES.map((s) => (
-                    <option key={s.id} value={s.id}>
+                    <option key={s.id} value={s.id} className="dark:bg-[#1c1c1e]">
                       {s.name} (from ₹{s.base_price_estimate})
                     </option>
                   ))}
@@ -206,7 +198,7 @@ export const WorkersPage: React.FC = () => {
 
               {/* Locality selector */}
               <div>
-                <label className="text-xs font-bold text-slate-700 mb-1.5 block">Your Locality / Area</label>
+                <label className="text-[13px] sm:text-[14px] font-semibold text-[#86868b] dark:text-[#98989d] mb-2 block">Your Locality</label>
                 <select
                   value={selectedLocality}
                   onChange={(e) => {
@@ -216,10 +208,10 @@ export const WorkersPage: React.FC = () => {
                       return prev;
                     });
                   }}
-                  className="w-full text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-teal-500"
+                  className="w-full text-[15px] font-medium bg-[#f5f5f7] dark:bg-[#2c2c2e] border-0 rounded-2xl p-3 text-[#1d1d1f] dark:text-white focus:outline-none cursor-pointer"
                 >
                   {Object.keys(LOCALITY_COORDINATES).map((loc) => (
-                    <option key={loc} value={loc}>
+                    <option key={loc} value={loc} className="dark:bg-[#1c1c1e]">
                       {loc}, Bengaluru
                     </option>
                   ))}
@@ -228,9 +220,9 @@ export const WorkersPage: React.FC = () => {
 
               {/* Max Budget Slider */}
               <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="text-xs font-bold text-slate-700">Max Budget Target</label>
-                  <span className="text-xs font-extrabold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200">
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-[13px] sm:text-[14px] font-semibold text-[#86868b] dark:text-[#98989d]">Target Budget</label>
+                  <span className="text-[13px] font-bold text-[#1d1d1f] dark:text-white bg-black/[0.04] dark:bg-white/[0.08] px-3 py-1 rounded-full">
                     ₹{maxBudget}
                   </span>
                 </div>
@@ -241,15 +233,15 @@ export const WorkersPage: React.FC = () => {
                   step="50"
                   value={maxBudget}
                   onChange={(e) => setMaxBudget(Number(e.target.value))}
-                  className="w-full accent-teal-600 cursor-pointer"
+                  className="w-full accent-[#0071e3] dark:accent-[#0a84ff] cursor-pointer mt-1"
                 />
               </div>
 
               {/* Max Distance Slider */}
               <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="text-xs font-bold text-slate-700">Search Radius</label>
-                  <span className="text-xs font-extrabold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200">
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-[13px] sm:text-[14px] font-semibold text-[#86868b] dark:text-[#98989d]">Search Radius</label>
+                  <span className="text-[13px] font-bold text-[#1d1d1f] dark:text-white bg-black/[0.04] dark:bg-white/[0.08] px-3 py-1 rounded-full">
                     {maxDistance} km
                   </span>
                 </div>
@@ -260,44 +252,44 @@ export const WorkersPage: React.FC = () => {
                   step="1"
                   value={maxDistance}
                   onChange={(e) => setMaxDistance(Number(e.target.value))}
-                  className="w-full accent-teal-600 cursor-pointer"
+                  className="w-full accent-[#0071e3] dark:accent-[#0a84ff] cursor-pointer mt-1"
                 />
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-100 text-xs">
-              <div className="flex flex-wrap items-center gap-4">
-                <label className="inline-flex items-center gap-2 cursor-pointer font-semibold text-slate-700">
+            <div className="flex flex-wrap items-center justify-between gap-5 pt-5 border-t border-black/[0.06] dark:border-white/[0.08] text-[14px] sm:text-[15px]">
+              <div className="flex flex-wrap items-center gap-6">
+                <label className="inline-flex items-center gap-2.5 cursor-pointer font-medium text-[#1d1d1f] dark:text-[#f5f5f7]">
                   <input
                     type="checkbox"
                     checked={onlyAvailable}
                     onChange={(e) => setOnlyAvailable(e.target.checked)}
-                    className="rounded text-teal-600 focus:ring-teal-500 h-4 w-4"
+                    className="rounded accent-[#0071e3] dark:accent-[#0a84ff] h-4.5 w-4.5"
                   />
                   <span>Available Now Only</span>
                 </label>
 
-                <label className="inline-flex items-center gap-2 cursor-pointer font-semibold text-slate-700">
+                <label className="inline-flex items-center gap-2.5 cursor-pointer font-medium text-[#1d1d1f] dark:text-[#f5f5f7]">
                   <input
                     type="checkbox"
                     checked={onlyVerified}
                     onChange={(e) => setOnlyVerified(e.target.checked)}
-                    className="rounded text-teal-600 focus:ring-teal-500 h-4 w-4"
+                    className="rounded accent-[#0071e3] dark:accent-[#0a84ff] h-4.5 w-4.5"
                   />
                   <span>Govt. ID Verified Only</span>
                 </label>
               </div>
 
-              <div className="flex items-center gap-3">
-                <span className="text-slate-500 font-medium">
-                  Found <strong className="text-slate-900">{rankedEvaluations.length}</strong> eligible workers
+              <div className="flex items-center gap-5">
+                <span className="text-[#86868b] dark:text-[#98989d]">
+                  Showing <strong className="text-[#1d1d1f] dark:text-white font-bold">{rankedEvaluations.length}</strong> matching specialists
                 </span>
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="text-xs font-semibold text-slate-500 hover:text-teal-700 flex items-center gap-1 transition-colors"
+                  className="text-[13px] font-semibold text-[#86868b] dark:text-[#98989d] hover:text-[#1d1d1f] dark:hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
-                  <RotateCcw className="w-3 h-3" />
+                  <RotateCcw className="w-3.5 h-3.5" />
                   <span>Reset</span>
                 </button>
               </div>
@@ -306,9 +298,9 @@ export const WorkersPage: React.FC = () => {
         )}
 
         {/* Desktop Split View: Map + Cards */}
-        <div className="space-y-6">
-          {/* Map display: Always visible on desktop, or when mobileTab === 'map' on mobile */}
-          <div className={`${mobileTab === 'map' ? 'block' : 'hidden sm:block'}`}>
+        <div className="space-y-8">
+          {/* Map display */}
+          <div className={`${mobileTab === 'map' ? 'block' : 'hidden sm:block'} overflow-hidden rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] shadow-xs`}>
             <LeafletMap
               workers={rankedEvaluations.map((e) => e.worker)}
               selectedWorkerId={selectedWorkerId}
@@ -320,31 +312,31 @@ export const WorkersPage: React.FC = () => {
             />
           </div>
 
-          {/* Cards List: Visible when mobileTab === 'list' or on desktop */}
+          {/* Cards List */}
           <div className={`${mobileTab === 'list' ? 'block' : 'hidden sm:block'}`}>
             {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <WorkerCardSkeleton />
                 <WorkerCardSkeleton />
                 <WorkerCardSkeleton />
                 <WorkerCardSkeleton />
               </div>
             ) : rankedEvaluations.length === 0 ? (
-              <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-3 shadow-xs">
-                <AlertCircle className="w-10 h-10 text-amber-500 mx-auto" />
-                <h3 className="text-lg font-bold text-slate-800">No Professionals Match Current Criteria</h3>
-                <p className="text-xs text-slate-500 max-w-md mx-auto">
+              <div className="bg-white dark:bg-[#1c1c1e] rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] p-16 text-center space-y-4 shadow-xs">
+                <AlertCircle className="w-10 h-10 text-[#ff9500] mx-auto" />
+                <h3 className="text-[20px] font-bold text-[#1d1d1f] dark:text-white">No Specialists Match Current Filters</h3>
+                <p className="text-[15px] text-[#86868b] dark:text-[#98989d] max-w-md mx-auto leading-relaxed">
                   Try increasing your budget target above ₹{maxBudget} or widening the search radius beyond {maxDistance} km.
                 </p>
                 <button
                   onClick={handleResetFilters}
-                  className="mt-2 px-5 py-2.5 rounded-xl bg-teal-600 text-white text-xs font-bold hover:bg-teal-700 transition-colors shadow-xs"
+                  className="mt-4 px-6 py-3 rounded-full bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f] text-[14px] font-semibold hover:bg-[#333336] dark:hover:bg-[#ebebee] transition-colors cursor-pointer"
                 >
                   Reset All Filters
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {rankedEvaluations.map((item) => {
                   const { worker, totalScore, distanceKm, explanation, distanceScore, availabilityScore, ratingScore, affordabilityScore } = item;
                   const isSelected = worker.id === selectedWorkerId;
@@ -354,42 +346,34 @@ export const WorkersPage: React.FC = () => {
                     <div
                       key={worker.id}
                       id={`worker-${worker.id}`}
-                      className={`bg-white rounded-3xl border p-5 shadow-xs transition-all flex flex-col justify-between ${
+                      className={`bg-white dark:bg-[#1c1c1e] rounded-[32px] border p-7 sm:p-8 shadow-xs apple-interactive-card flex flex-col justify-between ${
                         isSelected
-                          ? 'border-teal-500 ring-3 ring-teal-500/20 shadow-md'
-                          : 'border-slate-200/90 hover:border-slate-300'
+                          ? 'border-[#0071e3] dark:border-[#0a84ff] ring-2 ring-[#0071e3]/20 dark:ring-[#0a84ff]/20 shadow-lg'
+                          : 'border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] dark:hover:border-white/[0.15]'
                       }`}
                     >
                       <div>
                         {/* Top Header & Match Score */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-center gap-3">
+                        <div className="flex items-start justify-between gap-3.5">
+                          <div className="flex items-center gap-4">
                             <div className="relative">
                               <img
                                 src={worker.avatar_url}
                                 alt={worker.full_name}
-                                className="w-14 h-14 rounded-2xl object-cover border-2 border-teal-500/20 shadow-xs"
-                              />
-                              <span
-                                className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-white ${
-                                  worker.availability_status === 'available'
-                                    ? 'bg-emerald-500'
-                                    : 'bg-amber-500'
-                                }`}
-                                title={worker.availability_status}
+                                className="w-16 h-16 rounded-full object-cover border border-black/[0.06] dark:border-white/[0.08]"
                               />
                             </div>
                             <div>
-                              <div className="flex items-center gap-1.5">
-                                <h3 className="font-bold text-base text-slate-900">{worker.full_name}</h3>
+                              <div className="flex items-center gap-2">
+                                <h3 className="font-bold text-[19px] sm:text-[20px] text-[#1d1d1f] dark:text-white">{worker.full_name}</h3>
                                 {worker.verification_status === 'verified' && (
-                                  <BadgeCheck className="w-4 h-4 text-teal-600" />
+                                  <BadgeCheck className="w-5 h-5 text-[#0071e3] dark:text-[#0a84ff]" />
                                 )}
                               </div>
-                              <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
-                                <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                              <p className="text-[14px] sm:text-[15px] text-[#86868b] dark:text-[#98989d] flex items-center gap-1.5 mt-0.5">
+                                <MapPin className="w-4 h-4 text-[#86868b] dark:text-[#98989d]" />
                                 <span>{worker.locality}</span>
-                                <span className="font-semibold text-teal-700">({distanceKm} km away)</span>
+                                <span className="font-semibold text-[#1d1d1f] dark:text-white">({distanceKm} km away)</span>
                               </p>
                             </div>
                           </div>
@@ -398,81 +382,81 @@ export const WorkersPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setExpandedScoreWorkerId(isScoreExpanded ? null : worker.id)}
-                            className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-teal-50 hover:bg-teal-100 text-teal-900 border border-teal-200 text-xs font-extrabold shadow-xs transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.08] hover:bg-black/[0.08] dark:hover:bg-white/[0.12] text-[#1d1d1f] dark:text-white text-[13px] font-semibold border border-black/[0.05] dark:border-white/[0.06] transition-colors apple-press-spring cursor-pointer"
                             title="Click to see score breakdown"
                           >
-                            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                            <Sparkles className="w-4 h-4 text-[#0071e3] dark:text-[#0a84ff]" />
                             <span>{totalScore}% Match</span>
-                            <Info className="w-3 h-3 text-teal-600 ml-0.5" />
+                            <Info className="w-3.5 h-3.5 text-[#86868b] dark:text-[#98989d]" />
                           </button>
                         </div>
 
-                        {/* Explainable Factor Breakdown (Visible on toggle or hover) */}
+                        {/* Explainable Factor Breakdown */}
                         {isScoreExpanded && (
-                          <div className="mt-3 p-3.5 rounded-2xl bg-teal-50/70 border border-teal-200 text-[11px] space-y-2 animate-fadeIn">
-                            <div className="font-bold text-teal-900 flex justify-between">
-                              <span>Smart Match Score Breakdown</span>
-                              <span>Total: {totalScore}/100</span>
+                          <div className="mt-4 p-5 rounded-2xl bg-[#f5f5f7] dark:bg-[#242426] border border-black/[0.04] dark:border-white/[0.06] text-[14px] space-y-2.5 animate-apple-scale-in">
+                            <div className="font-bold text-[#1d1d1f] dark:text-white flex justify-between">
+                              <span>Hyperlocal Match Factors</span>
+                              <span>Total Score: {totalScore}/100</span>
                             </div>
-                            <div className="space-y-1.5 text-slate-600">
+                            <div className="space-y-2 text-[#515154] dark:text-[#98989d]">
                               <div className="flex justify-between items-center">
-                                <span>Distance Factor (35% wt):</span>
-                                <strong className="text-slate-800">{distanceScore}/100 ({distanceKm} km)</strong>
+                                <span>Distance Weight (35%):</span>
+                                <strong className="text-[#1d1d1f] dark:text-white font-semibold">{distanceScore}/100 ({distanceKm} km)</strong>
                               </div>
                               <div className="flex justify-between items-center">
-                                <span>Availability Factor (25% wt):</span>
-                                <strong className="text-slate-800">{availabilityScore}/100 ({worker.availability_status})</strong>
+                                <span>Availability Weight (25%):</span>
+                                <strong className="text-[#1d1d1f] dark:text-white font-semibold">{availabilityScore}/100 ({worker.availability_status})</strong>
                               </div>
                               <div className="flex justify-between items-center">
-                                <span>Rating Factor (20% wt):</span>
-                                <strong className="text-slate-800">{ratingScore}/100 ({worker.rating || 'New'})</strong>
+                                <span>Rating Weight (20%):</span>
+                                <strong className="text-[#1d1d1f] dark:text-white font-semibold">{ratingScore}/100 ({worker.rating ? worker.rating.toFixed(1) : 'New'})</strong>
                               </div>
                               <div className="flex justify-between items-center">
-                                <span>Affordability Factor (20% wt):</span>
-                                <strong className="text-slate-800">{affordabilityScore}/100 (₹{worker.starting_rate} vs ₹{maxBudget})</strong>
+                                <span>Affordability Weight (20%):</span>
+                                <strong className="text-[#1d1d1f] dark:text-white font-semibold">{affordabilityScore}/100 (₹{worker.starting_rate} vs ₹{maxBudget})</strong>
                               </div>
                             </div>
                           </div>
                         )}
 
                         {/* Explainability Callout Tag */}
-                        <div className="mt-3 px-3 py-2 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-2">
-                          <Info className="w-3.5 h-3.5 text-teal-600 shrink-0 mt-0.5" />
-                          <span className="text-[11px] font-medium text-slate-600 leading-tight">
+                        <div className="mt-4 px-4.5 py-3 rounded-2xl bg-[#f5f5f7] dark:bg-[#242426] border border-black/[0.04] dark:border-white/[0.06] flex items-start gap-3">
+                          <Info className="w-4 h-4 text-[#0071e3] dark:text-[#0a84ff] shrink-0 mt-0.5" />
+                          <span className="text-[14px] sm:text-[15px] text-[#515154] dark:text-[#98989d] leading-relaxed">
                             {explanation}
                           </span>
                         </div>
 
                         {/* Skills chips */}
-                        <div className="mt-3 flex flex-wrap gap-1.5">
+                        <div className="mt-4 flex flex-wrap gap-2">
                           {worker.skills.map((s) => (
                             <span
                               key={s.id}
-                              className="px-2 py-0.5 rounded-md bg-teal-50/70 text-teal-800 text-[11px] font-semibold"
+                              className="px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.08] text-[#1d1d1f] dark:text-[#f5f5f7] text-[13px] font-semibold"
                             >
                               {s.name}
                             </span>
                           ))}
                         </div>
 
-                        <p className="text-xs text-slate-600 mt-2.5 line-clamp-2 leading-relaxed">
+                        <p className="text-[15px] sm:text-[16px] text-[#515154] dark:text-[#c7c7cc] mt-4 line-clamp-2 leading-relaxed">
                           {worker.bio}
                         </p>
 
                         {/* Metrics bar */}
-                        <div className="mt-4 pt-3 border-t border-slate-100 grid grid-cols-3 gap-2 text-center">
-                          <div className="p-2 rounded-xl bg-slate-50">
-                            <div className="text-[10px] uppercase font-bold text-slate-400">Rate Quote</div>
-                            <div className="text-sm font-extrabold text-slate-900">₹{worker.starting_rate}</div>
+                        <div className="mt-5 pt-4 border-t border-black/[0.05] dark:border-white/[0.06] grid grid-cols-3 gap-3 text-center">
+                          <div className="p-3 rounded-2xl bg-[#f5f5f7] dark:bg-[#242426]">
+                            <div className="text-[13px] font-medium text-[#86868b] dark:text-[#98989d]">Rate Quote</div>
+                            <div className="text-[19px] sm:text-[20px] font-bold text-[#1d1d1f] dark:text-white mt-0.5">₹{worker.starting_rate}</div>
                           </div>
-                          <div className="p-2 rounded-xl bg-slate-50">
-                            <div className="text-[10px] uppercase font-bold text-slate-400">Experience</div>
-                            <div className="text-sm font-extrabold text-slate-900">{worker.experience_years} Years</div>
+                          <div className="p-3 rounded-2xl bg-[#f5f5f7] dark:bg-[#242426]">
+                            <div className="text-[13px] font-medium text-[#86868b] dark:text-[#98989d]">Experience</div>
+                            <div className="text-[19px] sm:text-[20px] font-bold text-[#1d1d1f] dark:text-white mt-0.5">{worker.experience_years} Years</div>
                           </div>
-                          <div className="p-2 rounded-xl bg-slate-50">
-                            <div className="text-[10px] uppercase font-bold text-slate-400">Rating</div>
-                            <div className="text-sm font-extrabold text-amber-600 flex items-center justify-center gap-1">
-                              <span>★</span>
+                          <div className="p-3 rounded-2xl bg-[#f5f5f7] dark:bg-[#242426]">
+                            <div className="text-[13px] font-medium text-[#86868b] dark:text-[#98989d]">Rating</div>
+                            <div className="text-[19px] sm:text-[20px] font-bold text-[#1d1d1f] dark:text-white flex items-center justify-center gap-1 mt-0.5">
+                              <span className="text-[#ff9500] dark:text-[#ffd60a]">★</span>
                               <span>{worker.rating ? worker.rating.toFixed(1) : 'New'}</span>
                             </div>
                           </div>
@@ -480,18 +464,18 @@ export const WorkersPage: React.FC = () => {
                       </div>
 
                       {/* Action buttons */}
-                      <div className="mt-4 pt-3 flex items-center gap-2">
+                      <div className="mt-7 pt-4 flex items-center gap-3">
                         <Link
                           to={`/worker-profile/${worker.id}`}
-                          className="flex-1 text-center py-2.5 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors"
+                          className="flex-1 text-center py-3.5 px-4 rounded-full border border-black/[0.1] dark:border-white/[0.12] hover:bg-black/[0.04] dark:hover:bg-white/[0.08] text-[15px] font-semibold text-[#1d1d1f] dark:text-white transition-colors apple-press-spring"
                         >
                           Profile & Reviews
                         </Link>
                         <Link
                           to={`/book/${worker.id}?service=${worker.skills[0]?.id || ''}`}
-                          className="flex-1 text-center py-2.5 px-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-xs transition-colors"
+                          className="flex-1 text-center py-3.5 px-4 rounded-full bg-[#1d1d1f] dark:bg-white hover:bg-[#333336] dark:hover:bg-[#ebebee] text-white dark:text-[#1d1d1f] text-[15px] font-semibold transition-colors shadow-xs apple-press-spring"
                         >
-                          Book & Propose Price
+                          Book Specialist
                         </Link>
                       </div>
                     </div>

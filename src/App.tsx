@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
@@ -30,10 +31,11 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 
 export function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="flex flex-col min-h-screen bg-[#f5f5f7] dark:bg-[#000000] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-200">
+            <Navbar />
           <main className="flex-1">
             <Routes>
               {/* Public Routes */}
@@ -126,6 +128,7 @@ export function App() {
         </div>
       </Router>
     </AuthProvider>
+    </ThemeProvider>
   );
 }
 

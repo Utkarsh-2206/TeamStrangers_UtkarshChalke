@@ -11,28 +11,25 @@ import {
   Home,
   Flower2,
   Truck,
-  ArrowRight,
-  ShieldCheck,
-  CheckCircle2,
+  Check,
   Search,
-  SlidersHorizontal,
   Clock,
-  HelpCircle,
   X,
+  ChevronRight,
 } from 'lucide-react';
 import { DEMO_SERVICES } from '../lib/demoData';
 
 const ICON_MAP: Record<string, React.ReactNode> = {
-  Zap: <Zap className="w-6 h-6 text-amber-500" />,
-  Wrench: <Wrench className="w-6 h-6 text-sky-500" />,
-  Hammer: <Hammer className="w-6 h-6 text-orange-500" />,
-  Sparkles: <Sparkles className="w-6 h-6 text-teal-500" />,
-  Paintbrush: <Paintbrush className="w-6 h-6 text-indigo-500" />,
-  Cpu: <Cpu className="w-6 h-6 text-blue-500" />,
-  Utensils: <Utensils className="w-6 h-6 text-emerald-500" />,
-  Home: <Home className="w-6 h-6 text-rose-500" />,
-  Flower2: <Flower2 className="w-6 h-6 text-green-500" />,
-  Truck: <Truck className="w-6 h-6 text-violet-500" />,
+  Zap: <Zap className="w-6 h-6" />,
+  Wrench: <Wrench className="w-6 h-6" />,
+  Hammer: <Hammer className="w-6 h-6" />,
+  Sparkles: <Sparkles className="w-6 h-6" />,
+  Paintbrush: <Paintbrush className="w-6 h-6" />,
+  Cpu: <Cpu className="w-6 h-6" />,
+  Utensils: <Utensils className="w-6 h-6" />,
+  Home: <Home className="w-6 h-6" />,
+  Flower2: <Flower2 className="w-6 h-6" />,
+  Truck: <Truck className="w-6 h-6" />,
 };
 
 export const ServicesPage: React.FC = () => {
@@ -61,55 +58,55 @@ export const ServicesPage: React.FC = () => {
   }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="min-h-screen bg-slate-50 py-10 lg:py-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen bg-[#f5f5f7] dark:bg-[#000000] text-[#1d1d1f] dark:text-[#f5f5f7] py-12 transition-colors duration-250">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-8 animate-apple-fade-up">
         {/* Header with Search */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
-          <div className="max-w-2xl space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-50 text-teal-800 text-xs font-bold border border-teal-200">
-              <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
-              <span>Standardized Trade Catalog & Transparent Base Estimates</span>
+          <div className="max-w-2xl space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/[0.08] text-[#1d1d1f] dark:text-[#f5f5f7] text-[13px] font-semibold border border-black/[0.06] dark:border-white/[0.08]">
+              <Wrench className="w-3.5 h-3.5 text-[#6366f1] dark:text-[#818cf8]" />
+              <span>Transparent Base Estimates • Verified Specialists</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              Essential Household Services
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#1d1d1f] dark:text-white">
+              Trade Services Directory
             </h1>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-              Find licensed and verified local blue-collar professionals with zero middleman fee inflation. Propose your budget and negotiate directly with nearby providers.
+            <p className="text-[15px] sm:text-[17px] text-[#86868b] dark:text-[#98989d] leading-relaxed">
+              Browse licensed and verified independent tradespeople with zero middleman fee inflation. Propose your budget and negotiate directly with nearby providers.
             </p>
           </div>
 
-          {/* Quick Search Input */}
-          <div className="w-full md:w-80 relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+          {/* Apple Spotlight Search Input */}
+          <div className="w-full md:w-88 relative">
+            <Search className="w-4.5 h-4.5 text-[#86868b] absolute left-4 top-3.5" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search services, tasks, wiring..."
-              className="w-full pl-10 pr-9 py-2.5 text-xs font-medium bg-white border border-slate-200 rounded-2xl shadow-xs focus:outline-teal-500 text-slate-900"
+              className="w-full pl-11 pr-10 py-3 text-[15px] font-medium bg-white dark:bg-[#1c1c1e] border border-black/[0.08] dark:border-white/[0.12] rounded-full shadow-xs focus:outline-[#0071e3] text-[#1d1d1f] dark:text-white placeholder-[#86868b]"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                className="absolute right-4 top-3.5 text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-white cursor-pointer"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
               </button>
             )}
           </div>
         </div>
 
-        {/* Category Pills Bar */}
+        {/* Apple Category Capsule Filter Bar */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shadow-xs ${
+              className={`px-5 py-2 rounded-full text-[14px] font-semibold whitespace-nowrap transition-all apple-press-spring cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-teal-600 text-white shadow-teal-600/20'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  ? 'bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f] shadow-xs'
+                  : 'bg-white dark:bg-[#1c1c1e] border border-black/[0.06] dark:border-white/[0.08] text-[#86868b] dark:text-[#98989d] hover:text-[#1d1d1f] dark:hover:text-white'
               }`}
             >
               {cat}
@@ -119,12 +116,12 @@ export const ServicesPage: React.FC = () => {
 
         {/* Services Grid */}
         {filteredServices.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-3 shadow-xs">
-            <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+          <div className="bg-white dark:bg-[#1c1c1e] rounded-[32px] border border-black/[0.06] dark:border-white/[0.08] p-16 text-center space-y-4 shadow-xs">
+            <div className="w-12 h-12 rounded-full bg-black/[0.04] dark:bg-white/[0.08] text-[#86868b] flex items-center justify-center mx-auto">
               <Search className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-slate-800">No Services Found</h3>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            <h3 className="text-[20px] font-bold text-[#1d1d1f] dark:text-white">No Services Found</h3>
+            <p className="text-[15px] text-[#86868b] dark:text-[#98989d] max-w-sm mx-auto leading-relaxed">
               We couldn't find any service matching "<strong>{searchQuery}</strong>". Try clearing your search query or selecting a different category.
             </p>
             <button
@@ -133,7 +130,7 @@ export const ServicesPage: React.FC = () => {
                 setSearchQuery('');
                 setSelectedCategory('All');
               }}
-              className="mt-2 px-4 py-2 rounded-xl bg-teal-600 text-white text-xs font-bold hover:bg-teal-700 transition-colors shadow-xs"
+              className="mt-4 px-6 py-3 rounded-full bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f] text-[14px] font-semibold hover:bg-[#333336] transition-colors apple-press-spring cursor-pointer"
             >
               Reset Filters
             </button>
@@ -143,49 +140,51 @@ export const ServicesPage: React.FC = () => {
             {filteredServices.map((service) => (
               <div
                 key={service.id}
-                className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs hover:shadow-md hover:border-teal-300 transition-all flex flex-col justify-between group"
+                className="bg-white dark:bg-[#1c1c1e] rounded-[28px] border border-black/[0.06] dark:border-white/[0.08] p-7 shadow-xs apple-interactive-card flex flex-col justify-between group"
               >
                 <div>
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform">
-                      {ICON_MAP[service.icon_name] || <Wrench className="w-6 h-6 text-teal-600" />}
+                  <div className="flex items-start justify-between gap-4 mb-5">
+                    <div className="w-14 h-14 rounded-2xl bg-[#f5f5f7] dark:bg-[#2c2c2e] border border-black/[0.04] dark:border-white/[0.08] flex items-center justify-center text-[#1d1d1f] dark:text-white group-hover:bg-[#1d1d1f] dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-[#1d1d1f] transition-all duration-300">
+                      <div className="apple-symbol-bounce">
+                        {ICON_MAP[service.icon_name] || <Wrench className="w-6 h-6" />}
+                      </div>
                     </div>
                     <div className="text-right">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                      <span className="text-[13px] font-medium text-[#86868b] dark:text-[#98989d] block">
                         Base Starting Rate
                       </span>
-                      <span className="text-xl font-extrabold text-teal-800">
+                      <span className="text-[20px] sm:text-[22px] font-bold text-[#0071e3] dark:text-[#0a84ff]">
                         ₹{service.base_price_estimate}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] uppercase font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md border border-teal-200/60">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[12px] font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] bg-black/[0.04] dark:bg-white/[0.08] px-3 py-0.5 rounded-full">
                       {service.category}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
+                    <span className="text-[12px] text-[#86868b] dark:text-[#98989d] font-medium flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
                       <span>&lt; 30m response</span>
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors mt-1.5">
+                  <h3 className="text-[19px] sm:text-[20px] font-bold text-[#1d1d1f] dark:text-white group-hover:text-[#0071e3] dark:group-hover:text-[#0a84ff] transition-colors mt-2">
                     {service.name}
                   </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed mt-1 mb-4">
+                  <p className="text-[15px] text-[#515154] dark:text-[#c7c7cc] leading-relaxed mt-2 mb-5">
                     {service.description}
                   </p>
 
                   {/* Popular Tasks */}
                   {service.popular_tasks && (
-                    <div className="space-y-1.5 pt-3 border-t border-slate-100">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                        Common Neighborhood Jobs
+                    <div className="space-y-2 pt-4 border-t border-black/[0.06] dark:border-white/[0.08]">
+                      <span className="text-[13px] font-bold text-[#86868b] dark:text-[#98989d] uppercase tracking-wider block">
+                        Common Tasks
                       </span>
                       {service.popular_tasks.map((task, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-xs text-slate-700">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                        <div key={idx} className="flex items-center gap-2.5 text-[14px] text-[#515154] dark:text-[#c7c7cc]">
+                          <Check className="w-4 h-4 text-[#34c759] shrink-0" />
                           <span>{task}</span>
                         </div>
                       ))}
@@ -193,13 +192,13 @@ export const ServicesPage: React.FC = () => {
                   )}
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100">
+                <div className="mt-7 pt-5 border-t border-black/[0.06] dark:border-white/[0.08]">
                   <Link
                     to={`/workers?service=${service.id}`}
-                    className="w-full py-2.5 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-colors group-hover:shadow-md"
+                    className="w-full py-3.5 px-5 rounded-full bg-[#1d1d1f] dark:bg-white hover:bg-[#333336] dark:hover:bg-[#ebebee] text-white dark:text-[#1d1d1f] font-semibold text-[15px] flex items-center justify-center gap-2 transition-colors shadow-xs apple-press-spring"
                   >
-                    <span>Find {service.name} Pros</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <span>View {service.name} Specialists</span>
+                    <ChevronRight className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
